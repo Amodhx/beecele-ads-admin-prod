@@ -29,13 +29,13 @@ async function callApi(apiObject) {
 
   const serverUrl = apiConfig.serverUrl
   let basePath  = apiConfig.basePath
-
+  console.log(basePath)
   if (apiObject.basePath) {
     basePath = apiObject.basePath
   }
 
   const url = `${serverUrl}/${basePath}/${apiObject.endpoint}`
-
+  console.log(url)
   let result
 
   await axios[method](

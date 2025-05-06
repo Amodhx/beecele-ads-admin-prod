@@ -42,7 +42,7 @@ function alertToCantRefreshToken () {
                 Cookies.remove(constant.ACCESS_TOKEN)
                 Cookies.remove(constant.REFRESH_TOKEN)
                 localStorage.removeItem(constant.USER_DATA)
-                window.location = `${constant.BASE_ROUTE_PATH}/login`
+                // window.location = `${constant.BASE_ROUTE_PATH}/login`
                 /*eslint-enable */
                 break
             default:
@@ -74,26 +74,21 @@ instance.interceptors.response.use(
 
       try {
         const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refreshToken`
-          // let isAccessTokenRefreshed = false
-          console.log("HELLO")
-          const response = await instance.post(URL, {
-              refreshToken
-          })
-          console.log(response)
-        // const response = await instance.post(URL, {}, config)
-        //     .then(async (response) => {
-        //       await Cookies.set(constant.ACCESS_TOKEN, response.data?.idToken)
-        //         await Cookies.set(constant.REFRESH_TOKEN, response.data?.refreshToken)
-        //         isAccessTokenRefreshed = true
-        //         processQueue(null, response.data?.idToken)
-        //         isRefresh = false
-        //
-        //         originalRequest.headers['Authorization'] = `Bearer ${Cookies.get(constant.REFRESH_TOKEN)}`
-        //         return instance(originalRequest)
-        //     })
-        //     .catch((error) => {
-        //         alertToCantRefreshToken()
-        //     })
+          let isAccessTokenRefreshed = false
+        const response = await instance.post(URL, {}, config)
+            .then(async (response) => {
+              await Cookies.set(constant.ACCESS_TOKEN, response.data?.idToken)
+                await Cookies.set(constant.REFRESH_TOKEN, response.data?.refreshToken)
+                isAccessTokenRefreshed = true
+                processQueue(null, response.data?.idToken)
+                isRefresh = false
+
+                originalRequest.headers['Authorization'] = `Bearer ${Cookies.get(constant.REFRESH_TOKEN)}`
+                return instance(originalRequest)
+            })
+            .catch((error) => {
+                alertToCantRefreshToken()
+            })
       } catch (error) {
           alertToCantRefreshToken()
       }
