@@ -1,0 +1,25 @@
+.dropdown-contaioner {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    row-gap: 10px;
+}
+
+.growth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.growth-text {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.year-pkr {
+    border-radius: 5px;
+}
+
+.gapper {
+    margin-top: 20px;
+}
