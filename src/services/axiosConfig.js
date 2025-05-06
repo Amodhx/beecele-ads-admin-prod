@@ -57,7 +57,7 @@ instance.interceptors.response.use(
         const originalRequest = error.config
         const status = error.response ? error.response.status : 0
 
-        if (originalRequest.url?.includes('auth/signin') || originalRequest.url?.includes('auth/refreshToken')) {
+        if (originalRequest.url?.includes('auth/signin')) {
             return
         }
         if (status !== 200 && !originalRequest._retry) {
@@ -69,19 +69,19 @@ instance.interceptors.response.use(
                         originalRequest.headers['Authorization'] = `Bearer ${token}`
                         return instance(originalRequest)
                     })
-            } else {
-                return
             }
         }
         originalRequest._retry = true
         isRefresh = true
 
-        const refreshToken = Cookies.get(constant.REFRESH_TOKEN)
+        const refreshToken = await Cookies.get(constant.REFRESH_TOKEN)
 
         try {
-            const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refreshToken`
+            const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refresh-token`
             let isAccessTokenRefreshed = false
-            const response = await instance.post(URL, {}, config)
+            const response = await instance.post(URL, {
+                refreshToken
+            })
                 .then(async (response) => {
                     await Cookies.set(constant.ACCESS_TOKEN, response.data?.idToken)
                     await Cookies.set(constant.REFRESH_TOKEN, response.data?.refreshToken)

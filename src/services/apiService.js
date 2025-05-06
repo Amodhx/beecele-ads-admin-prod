@@ -19,10 +19,9 @@ async function callApi(apiObject) {
       : apiObject.multipart
         ? "multipart/form-data"
         : "application/json",
-    Channel: "ADMIN"
+    "Time-Zone" : 'Asia/Colombo'
   }
   /*eslint-enable */
-
   if (apiObject.authentication) {
     headers.Authorization = `Bearer ${Cookies.get(constant.ACCESS_TOKEN)}`
   }
@@ -35,11 +34,10 @@ async function callApi(apiObject) {
 
   const url = `${serverUrl}/${basePath}/${apiObject.endpoint}`
   let result
-
   await axios[method](
     url,
     /*eslint-disable */
-    method !== "get" && method !== "delete" ? body : { headers: headers },
+    method !== "get" && method !== "delete" ? body : {headers : headers},
     { headers: headers }
   )
     .then(async (response) => {
@@ -68,25 +66,7 @@ async function callApi(apiObject) {
             result: error?.response?.data?.desc || error?.response?.result,
             data: null
           }
-        } else if (error.response.status === 401) {
-          if (apiObject.type !== "AUTH") {
-            /*eslint-disable */
-            Cookies.remove(constant.ACCESS_TOKEN)
-            localStorage.removeItem(constant.USER_DATA)
-            commonFunc.notifyMessage(
-              "Your session expired! Please login again..",
-              "Session expired",
-              0
-            )
-            window.location = `${constant.BASE_ROUTE_PATH}/login`
-          }
-          result = {
-            success: false,
-            status: 2,
-            result: "Your session expired! Please login again..",
-            data: null
-          }
-        } else if (error.response.status === 403) {
+        }  else if (error.response.status === 403) {
           result = {
             success: false,
             status: 2,
@@ -127,6 +107,7 @@ async function callApi(apiObject) {
       }
     })
   /*eslint-enable */
+  console.log(result)
   return result
 }
 

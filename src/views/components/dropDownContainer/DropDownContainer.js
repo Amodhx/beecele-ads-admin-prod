@@ -14,7 +14,7 @@ export default function DropDownContainer({text, getDataHandler}) {
     const [endDate, setToDate] = useState()
 
     useEffect(() => {
-        getDataHandler()
+        getDataHandler(dateType, startDate, endDate)
     }, [dateType, startDate, endDate, year])
 
     const makeDate = (selectedDate) => {
@@ -39,8 +39,7 @@ export default function DropDownContainer({text, getDataHandler}) {
         const region = "[Asia/Colombo]"
 
         // Construct the final output
-        const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${`+05:30`}${region}`
-        return formattedDate
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${`+05:30`}${region}`
     }
     return (
         <>
