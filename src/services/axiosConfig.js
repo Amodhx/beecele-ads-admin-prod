@@ -56,7 +56,8 @@ instance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config
         const status = error.response ? error.response.status : 0
-        if (originalRequest.url?.includes('auth/signin')) {
+
+        if (originalRequest.url?.includes('auth/signin') || originalRequest.url?.includes('auth/refreshToken')) {
             return
         }
         if (status !== 200 && !originalRequest._retry) {
@@ -68,6 +69,8 @@ instance.interceptors.response.use(
                         originalRequest.headers['Authorization'] = `Bearer ${token}`
                         return instance(originalRequest)
                     })
+            } else {
+                return
             }
         }
         originalRequest._retry = true
