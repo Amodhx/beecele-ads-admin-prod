@@ -14,7 +14,7 @@ export default function DropDownContainer({text, getDataHandler}) {
     const [endDate, setToDate] = useState()
 
     useEffect(() => {
-        getDataHandler(dateType, startDate, endDate)
+        getDataHandler(undefined, dateType, startDate, endDate)
     }, [dateType, startDate, endDate, year])
 
     const makeDate = (selectedDate) => {

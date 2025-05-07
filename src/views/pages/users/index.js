@@ -15,105 +15,85 @@ import {toast} from "react-toastify"
 import {useHistory, Link} from "react-router-dom/cjs/react-router-dom"
 import {getAllAndFilterUser} from "../../../services/user"
 import DropDownContainer from "../../components/dropDownContainer/DropDownContainer"
+import defaultImage from '../../../assets/images/defualtUserImage.avif'
 
 export default function LeadUser() {
     const dispatch = useDispatch()
-    const history = useHistory()
-
     const [data, setData] = useState([])
+    const [dataType, setDataType] = useState('h_24')
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
-    const [totalRecodes, setTotalRecodes] = useState(0)
     const [totalPages, setTotalPages] = useState(0)
-    const [selectedUser, setSelectedUser] = useState(null)
-    const [userLoading, setUserLoading] = useState(null)
-    const [search, setSearch] = useState("")
+    const [imagePopup, setImagePopup] = useState(null)
 
-    const getDataHandler = async (page = 1) => {
-        // dispatch(setLoading(true))
-        // await getAllAndFilterUser(page - 1, 10, status, 'lead_user', search)
-        //   .then((res) => {
-        //     if (res.success) {
-        //       setData(res ?? [])
-        //       setTotalPages(res?.totalPages ?? 0)
-        //     } else {
-        //       setData([])
-        //       setTotalPages(0)
-        //       toast.error("somthing went wrong")
-        //     }
-        //   })
-        //   .finally(() => {
-        //     setCurrentPage(page)
-        //     dispatch(setLoading(false))
-        //   })
+    const getDataHandler = async (page = 1, dataType, startDate, endDate) => {
+
+        setDataType(dataType)
+        setStartDate(startDate)
+        setEndDate(endDate)
+        if (dataType === "custom" && (!startDate || !endDate)) {
+            return // Stop execution if startDate or endDate is missing
+        }
+        dispatch(setLoading(true))
+        let objToGetData
+        if (dataType === "custom") {
+            objToGetData = {
+                start: startDate,
+                end: endDate,
+                dateTypes: dataType
+            }
+        } else {
+            objToGetData = {
+                dateTypes: dataType
+            }
+        }
+
+        try {
+            const res = await getAllAndFilterUser(page - 1, 10, objToGetData)
+            if (res.success) {
+                setData(res.data ?? [])
+                setTotalPages(res?.totalPages ?? 0)
+            } else {
+                setData([])
+                setTotalPages(0)
+                toast.error("Something went wrong")
+            }
+        } catch (error) {
+            toast.error("Failed to fetch data")
+        } finally {
+            dispatch(setLoading(false))
+        }
     }
-
     useEffect(() => {
-        getDataHandler()
-    }, [search])
-
-    useEffect(() => {
-    }, [data])
+        getDataHandler(undefined, 'h_24', null, null)
+    }, [])
 
     const handleNext = () => {
         if (currentPage < totalPages) {
-            getDataHandler(currentPage + 1)
+            setCurrentPage(currentPage + 1)
+            getDataHandler(currentPage + 1, dataType, startDate, endDate)
         }
     }
 
     const handlePrev = () => {
         if (currentPage > 1) {
-            getDataHandler(currentPage - 1)
+            setCurrentPage(currentPage - 1)
+            getDataHandler(currentPage - 1, dataType, startDate, endDate)
         }
     }
 
     const handlePageChange = (page) => {
         if (page > 0 && page <= totalPages) {
-            getDataHandler(page)
+            setCurrentPage(page)
+            getDataHandler(page, dataType, startDate, endDate)
         }
     }
-
-    const handleSearch = (e) => {
-        setSearch(e.target.value)
-    }
-
-    const makeSubscriptionCategory = (minReach, maxReach) => {
-        if (minReach === 50 && maxReach === 99) {
-            return "Up-to 99 Views"
-        } else if (minReach === 100 && 499) {
-            return "100 - 499 Views"
-        } else if (minReach === 500 && maxReach === 999) {
-            return "500 - 999 Views"
-        } else if (minReach === 1000 && maxReach === 2499) {
-            return "1000 - 2499 Views"
-        } else if (maxReach >= 2500) {
-            return "2500+ Views"
-        }
-    }
-
     return (
         <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
             <DropDownContainer text="App Users" getDataHandler={getDataHandler}/>
             <Card style={{marginTop: 10}}>
                 <CardBody>
-                    <Row className="d-flex align-items-center">
-                        <Col md="4" style={{marginTop: 5}}>
-                            <Input
-                                type="text"
-                                placeholder="Search By Name..."
-                                value={search}
-                                onChange={handleSearch}
-                            />
-                        </Col>
-                        <Col md="4" style={{marginTop: 5}}>
-                            <Input
-                                type="text"
-                                placeholder="Search By Email..."
-                                value={search}
-                                onChange={handleSearch}
-                            />
-                        </Col>
-                    </Row>
-
                     <Table
                         className="table-responsive"
                         bordered
@@ -131,30 +111,29 @@ export default function LeadUser() {
                         </tr>
                         </thead>
                         <tbody style={{fontSize: "13px"}}>
-                        {data?.data?.map((user, index) => {
+                        {data?.map((user, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}</td>
+                                    <td>{`${user?.first_name ?? ''} ${user?.last_name ?? ''}`}</td>
                                     <td>
-                                        <a href={user.instagramLink} target="_blank" rel="noopener noreferrer">
-                                            {user.instagramLink}
-                                        </a>
+                                        <img
+                                            src={user?.profile_img || defaultImage}
+                                            alt="User Image"
+                                            style={{width: '50px', cursor: 'pointer'}}
+                                            onClick={() => setImagePopup(user.profile_img)}
+                                            onError={(e) => (e.target.src = '/default-user.png')}
+                                        />
                                     </td>
-                                    <td>{user?.genderType?.type ?? '-'}</td>
-                                    <td>{user?.age ?? '-'}</td>
                                     <td>{user?.email ?? '-'}</td>
-                                    <td>{makeSubscriptionCategory(user?.subscriptionRqDTO?.subscription?.viewsAndAverage?.minReach, user?.subscriptionRqDTO?.subscription?.viewsAndAverage?.maxReach)}</td>
+                                    <td>{user?.date_of_birthday ?? '-'}</td>
+                                    <td>{user?.contact ?? '-'}</td>
+                                    <td>{user?.gender_type?.type ?? '-'}</td>
                                     <td>
-                                        <Link to={"/lead-user"}>
-                                            <Button
-                                                style={{minWidth: "80px"}}
-                                                color={"dark"}
-                                                size="sm"
-                                                onClick={() => setCurrentUser([user, data.viewAndAverage])}
-                                            >
-                                                View
-                                            </Button>
-                                        </Link>
+                                        {user?.role === 'ROLE_CREATOR'
+                                            ? 'Creator'
+                                            : user?.role === 'ROLE_USER'
+                                                ? 'User'
+                                                : '-'}
                                     </td>
                                 </tr>
                             )
@@ -173,6 +152,59 @@ export default function LeadUser() {
                     </div>
                 </CardBody>
             </Card>
+            {imagePopup && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 1000
+                    }}
+                >
+                    <div
+                        style={{
+                            position: "relative",
+                            backgroundColor: "#fff",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+                            maxWidth: "90%",
+                            maxHeight: "90%"
+                        }}
+                    >
+                        <button
+                            onClick={() => setImagePopup(null)}
+                            style={{
+                                position: "absolute",
+                                top: "-10px",
+                                right: "-10px",
+                                background: "red",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "50%",
+                                width: "30px",
+                                height: "30px",
+                                cursor: "pointer",
+                                fontSize: "16px"
+                            }}
+                        >
+                            ×
+                        </button>
+                        <img
+                            src={imagePopup}
+                            alt="Popup"
+                            style={{ maxWidth: "100%", maxHeight: "80vh", borderRadius: "8px" }}
+                        />
+                    </div>
+                </div>
+            )}
+
         </div>
     )
 }

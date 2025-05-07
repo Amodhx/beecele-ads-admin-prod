@@ -107,7 +107,6 @@ async function callApi(apiObject) {
       }
     })
   /*eslint-enable */
-  console.log(result)
   return result
 }
 
