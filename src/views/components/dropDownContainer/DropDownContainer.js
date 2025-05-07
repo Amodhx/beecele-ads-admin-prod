@@ -60,7 +60,6 @@ export default function DropDownContainer({text, getDataHandler}) {
                             <DropdownMenu>
                                 <DropdownItem onClick={() => setDateType("h_24")}>In 24 hours</DropdownItem>
                                 <DropdownItem onClick={() => setDateType("day_7")}>In 7 days</DropdownItem>
-                                <DropdownItem onClick={() => setDateType("month")}>In Month</DropdownItem>
                                 <DropdownItem onClick={() => setDateType("custom")}>Custom</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
