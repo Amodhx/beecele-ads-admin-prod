@@ -40,8 +40,7 @@ export default function Dashboard({direction, ...args}) {
         try {
           const res = await getDashboardData(objToGetData)
           if (res.success) {
-              console.log(res?.data)
-            // setData(res?.data ?? [])
+            setData(res?.data ?? [])
           } else {
             setData([])
             toast.error("Something went wrong")
@@ -56,7 +55,7 @@ export default function Dashboard({direction, ...args}) {
         if (data.length !== 0) {
             getDataHandler('h_24', null, null)
         }
-        // setUserGrowData(data?.lead_user_growth ?? [])
+        setUserGrowData(data?.lead_user_growth ?? [])
     }, [data])
     return (
         <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
@@ -76,7 +75,7 @@ export default function Dashboard({direction, ...args}) {
                                 Users Count
                             </CardTitle>
                             <CardText>
-                                {data?.active_lead_user_by_selection ?? 0}
+                                {data?.length ?? 0}
                             </CardText>
                         </CardBody>
                     </Card>
