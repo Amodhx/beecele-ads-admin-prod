@@ -40,7 +40,7 @@ const Login = () => {
 
     const handleLoginSubmit = async () => {
         if (!email) {
-            toast.error("Username cannot be empty")
+            toast.error("Email cannot be empty")
         } else if (!password) {
             toast.error("Password cannot be empty")
         } else {
