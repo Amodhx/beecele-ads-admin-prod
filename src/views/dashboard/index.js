@@ -16,8 +16,8 @@ import {useDispatch} from "react-redux"
 export default function Dashboard({direction, ...args}) {
     const dispatch = useDispatch()
     const currentYear = new Date().getFullYear()
-    const [data, setData] = useState([])
-    const getDataHandler = async (dataType, startDate, endDate) => {
+    const [data, setData] = useState()
+    const getDataHandler = async (page = 1, dataType, startDate, endDate) => {
         if (dataType === "custom" && (!startDate || !endDate)) {
             return // Stop execution if startDate or endDate is missing
         }
@@ -37,9 +37,9 @@ export default function Dashboard({direction, ...args}) {
         try {
           const res = await getDashboardData(objToGetData)
           if (res.success) {
-            setData(res?.data ?? [])
+            setData(res?.data?.sign_up_user_count ?? 0)
           } else {
-            setData([])
+            setData(0)
             toast.error("Something went wrong")
           }
         } catch (error) {
@@ -49,7 +49,7 @@ export default function Dashboard({direction, ...args}) {
         }
     }
     useEffect(() => {
-        getDataHandler('h_24', null, null)
+        getDataHandler(undefined, 'h_24', null, null)
     }, [])
     return (
         <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
@@ -69,7 +69,7 @@ export default function Dashboard({direction, ...args}) {
                                 Users Count
                             </CardTitle>
                             <CardText>
-                                {data?.length ?? 0}
+                                {data}
                             </CardText>
                         </CardBody>
                     </Card>
