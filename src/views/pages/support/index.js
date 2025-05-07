@@ -1,15 +1,31 @@
 import React, { useState } from "react"
 import { Input, Button, Label } from "reactstrap"
 import {toast} from "react-toastify"
+import {resetMerchantStripeAccount} from "../../../services/support"
+import {setLoading} from "../../../redux/actions/loading"
+import {useDispatch} from "react-redux"
 
 export default function Support() {
     const [email, setEmail] = useState("")
+    const dispatch = useDispatch()
 
-    const handleReset = () => {
+    const handleReset = async () => {
         if (!email) {
             toast.error("Email cannot be empty")
         } else {
-
+            dispatch(setLoading(true))
+            try {
+                const res = await resetMerchantStripeAccount(email)
+                if (res.success) {
+                    toast.success("Successfully removed account")
+                } else {
+                    toast.error("Something went wrong")
+                }
+            } catch (error) {
+                toast.error("Failed to fetch data")
+            } finally {
+                dispatch(setLoading(false))
+            }
         }
     }
 
