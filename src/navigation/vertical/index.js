@@ -26,16 +26,16 @@ export default [
     navLink: "/revenue"
   },
   {
+    id: "support",
+    title: "Support",
+    icon: <MdContactSupport size={12}/>,
+    navLink: "/support"
+  },
+  {
     id: "setting",
     title: "Settings",
     icon: <Settings size={20} />,
     children: [
-      {
-        id: "support",
-        title: "Support",
-        icon: <MdContactSupport size={12}/>,
-        navLink: "/support"
-      },
       {
         id: "Logout",
         title: "Logout",

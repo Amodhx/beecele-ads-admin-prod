@@ -20,6 +20,10 @@ export const Routes = [
     component: lazy(() => import("../../views/pages/revenue/index"))
   },
   {
+    path: "/support",
+    component: lazy(() => import("../../views/pages/support"))
+  },
+  {
     path: "/login",
     component: lazy(() => import("../../views/Login")),
     layout: "BlankLayout",
