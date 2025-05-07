@@ -1,7 +1,5 @@
 import ApiService from "./apiService"
 
-
-// Todo : I have to change this func
 export async function getAllAndFilterUser(page, pageSize, obj) {
   const apiObject = {}
   apiObject.method = "POST"
