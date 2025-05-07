@@ -15,12 +15,14 @@ import {useDispatch} from "react-redux"
 
 export default function Dashboard({direction, ...args}) {
     const dispatch = useDispatch()
+    const [dataType, setDataType] = useState('h_24')
     const currentYear = new Date().getFullYear()
     const years = Array.from({length: 50}, (_, i) => currentYear - i)
     const [year, setYear] = useState(currentYear)
     const [data, setData] = useState([])
     const [userGrowData, setUserGrowData] = useState()
     const getDataHandler = async (dataType, startDate, endDate) => {
+        setDataType(dataType)
         if (dataType === "custom" && (!startDate || !endDate)) {
             return // Stop execution if startDate or endDate is missing
         }
@@ -52,9 +54,9 @@ export default function Dashboard({direction, ...args}) {
         }
     }
     useEffect(() => {
-        if (data.length !== 0) {
-            getDataHandler('h_24', null, null)
-        }
+        getDataHandler('h_24', null, null)
+    }, [])
+    useEffect(() => {
         setUserGrowData(data?.lead_user_growth ?? [])
     }, [data])
     return (
