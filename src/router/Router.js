@@ -27,12 +27,10 @@ import DefaultRoute, {Routes} from "./routes"
 // ** Layouts
 import BlankLayout from "../@core/layouts/BlankLayout"
 import VerticalLayout from "../layouts/VerticalLayout"
-import HorizontalLayout from "../layouts/HorizontalLayout"
 import GlobalSpinner from "../views/components/spinner"
 
 
 const Router = () => {
-  // console.log(isUserLoggedIn)
   // ** Hooks
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
@@ -45,7 +43,7 @@ const Router = () => {
     layout === "horizontal" ? "HorizontalLayout" : "VerticalLayout"
 
   // ** All of the available layouts
-  const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout }
+  const Layouts = { BlankLayout, VerticalLayout }
 
   // ** Current Active Item
   const currentActiveItem = null
@@ -102,8 +100,6 @@ const Router = () => {
        ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
        ** Then redirect user to login
        */
-      console.log("wfer")
-
       return <Redirect to="/login" />
     } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
