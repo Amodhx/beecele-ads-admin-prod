@@ -15,15 +15,11 @@ async function callApi(apiObject) {
   /*eslint-disable */
   const headers = {
     "Content-Type": apiObject.urlencoded
-      ? "application/x-www-form-urlencoded"
-      : apiObject.multipart
-        ? "multipart/form-data"
-        : "application/json",
-    "Time-Zone" : 'Asia/Colombo'
-  }
-  /*eslint-enable */
-  if (apiObject.authentication) {
-    headers.Authorization = `Bearer ${Cookies.get(constant.ACCESS_TOKEN)}`
+        ? "application/x-www-form-urlencoded"
+        : apiObject.multipart
+            ? "multipart/form-data"
+            : "application/json",
+    "Time-Zone": "Asia/Colombo"
   }
 
   const serverUrl = apiConfig.serverUrl
