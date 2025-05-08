@@ -65,9 +65,6 @@ export default function LeadUser() {
             dispatch(setLoading(false))
         }
     }
-    useEffect(() => {
-        getDataHandler(undefined, 'h_24', null, null)
-    }, [])
 
     const handleNext = () => {
         if (currentPage < totalPages) {

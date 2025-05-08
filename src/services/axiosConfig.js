@@ -97,7 +97,7 @@ instance.interceptors.response.use(
             try {
                 const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refresh-token`
                 const response = await instance.post(URL, { refreshToken })
-
+                console.log(response)
                 const newAccessToken = response.data?.idToken
                 const newRefreshToken = response.data?.refreshToken
 

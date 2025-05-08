@@ -48,9 +48,7 @@ export default function Dashboard({direction, ...args}) {
           dispatch(setLoading(false))
         }
     }
-    useEffect(() => {
-        getDataHandler(undefined, 'h_24', null, null)
-    }, [])
+
     return (
         <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
             <div>
