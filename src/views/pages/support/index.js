@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Input, Button, Label } from "reactstrap"
+import React, {useState} from "react"
+import {Input, Button, Label} from "reactstrap"
 import {toast} from "react-toastify"
 import {resetMerchantStripeAccount} from "../../../services/support"
 import {setLoading} from "../../../redux/actions/loading"
@@ -30,7 +30,7 @@ export default function Support() {
     }
 
     return (
-        <div style={{ width: '96%', margin: 'auto', marginTop: 20 }}>
+        <div style={{width: '96%', margin: 'auto', marginTop: 20}}>
             <h3>Merchant Tools</h3>
 
             <div
@@ -43,16 +43,16 @@ export default function Support() {
                     maxWidth: 500
                 }}
             >
-                <h5 style={{ marginBottom: 20 }}>Reset Merchant Stripe Account</h5>
+                <h5 style={{marginBottom: 20}}>Reset Merchant Stripe Account</h5>
 
-                <Label for="merchantEmail" style={{ fontWeight: 500 }}>Merchant Email</Label>
+                <Label for="merchantEmail" style={{fontWeight: 500}}>Merchant Email</Label>
                 <Input
                     id="merchantEmail"
                     type="email"
                     placeholder="Enter merchant email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ marginBottom: 15 }}
+                    style={{marginBottom: 15}}
                 />
 
                 <Button color="primary" onClick={handleReset}>

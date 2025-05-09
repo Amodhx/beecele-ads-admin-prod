@@ -13,8 +13,7 @@ import {
     Modal
 } from "reactstrap"
 import logo from '../assets/images/logo/Logo.png'
-import axios from "axios"
-// import getRT from '../servirces/getRefreshToken'
+
 import * as constant from "../configs/constant"
 import Cookies from "cookies-js"
 import {toast} from "react-toastify"

@@ -196,7 +196,7 @@ export default function LeadUser() {
                         <img
                             src={imagePopup}
                             alt="Popup"
-                            style={{ maxWidth: "100%", maxHeight: "80vh", borderRadius: "8px" }}
+                            style={{maxWidth: "100%", maxHeight: "80vh", borderRadius: "8px"}}
                         />
                     </div>
                 </div>

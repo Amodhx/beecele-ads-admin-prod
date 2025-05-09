@@ -78,7 +78,7 @@ instance.interceptors.response.use(
         if (status === 401 && !originalRequest._retry) {
             if (isRefresh) {
                 return new Promise(function (resolve, reject) {
-                    failedQueue.push({ resolve, reject })
+                    failedQueue.push({resolve, reject})
                 }).then(token => {
                     console.log(`TOKEN ON RESPONSE INTERCEPTORS:   ${token} `)
                     originalRequest.headers['Authorization'] = `Bearer ${token}`
@@ -94,7 +94,7 @@ instance.interceptors.response.use(
 
             try {
                 const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refresh-token`
-                const response = await instance.post(URL, { refreshToken })
+                const response = await instance.post(URL, {refreshToken})
                 console.log(response)
                 const newAccessToken = response.data?.data?.idToken
                 const newRefreshToken = response.data?.data?.refreshToken

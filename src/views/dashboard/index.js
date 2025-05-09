@@ -35,17 +35,17 @@ export default function Dashboard({direction, ...args}) {
             }
         }
         try {
-          const res = await getDashboardData(objToGetData)
-          if (res.success) {
-            setData(res?.data?.sign_up_user_count ?? 0)
-          } else {
-            setData(0)
-            toast.error("Something went wrong")
-          }
+            const res = await getDashboardData(objToGetData)
+            if (res.success) {
+                setData(res?.data?.sign_up_user_count ?? 0)
+            } else {
+                setData(0)
+                toast.error("Something went wrong")
+            }
         } catch (error) {
-          toast.error("Failed to fetch data")
+            toast.error("Failed to fetch data")
         } finally {
-          dispatch(setLoading(false))
+            dispatch(setLoading(false))
         }
     }
 

@@ -1,6 +1,6 @@
-import { Fragment } from "react"
+import {Fragment} from "react"
 
-const Toast = ({ title, body }) => (
+const Toast = ({title, body}) => (
     <Fragment>
         <div className='toastify-header'>
             <div className='title-wrapper'>

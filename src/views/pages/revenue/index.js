@@ -9,7 +9,7 @@ import "flatpickr/dist/flatpickr.css"
 import DropDownContainer from "../../components/dropDownContainer/DropDownContainer"
 import {getAllAndFilterRevenue} from "../../../services/revenue"
 
-export default function Payout({ direction, ...args }) {
+export default function Payout({direction, ...args}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -81,23 +81,23 @@ export default function Payout({ direction, ...args }) {
     }
 
     return (
-        <div style={{ width: '96%', margin: 'auto', marginTop: 10 }}>
+        <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
             <DropDownContainer text="Revenue Stream" getDataHandler={getDataHandler}/>
-            <Card style={{ marginTop: 10 }}>
+            <Card style={{marginTop: 10}}>
                 <CardBody>
                     <Table
                         className="table-responsive"
                         bordered
-                        style={{ marginTop: "20px" }}
+                        style={{marginTop: "20px"}}
                     >
-                        <thead style={{ fontSize: "13px" }}>
-                            <tr>
-                                <th>Date</th>
-                                <th>Token Sale</th>
-                                <th>Revenue</th>
-                                <th>Payouts</th>
-                                <th>Gross Profit</th>
-                            </tr>
+                        <thead style={{fontSize: "13px"}}>
+                        <tr>
+                            <th>Date</th>
+                            <th>Token Sale</th>
+                            <th>Revenue</th>
+                            <th>Payouts</th>
+                            <th>Gross Profit</th>
+                        </tr>
                         </thead>
                         <tbody style={{fontSize: "13px"}}>
                         {[...data]
