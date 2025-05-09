@@ -17,6 +17,7 @@ export default function Support() {
             try {
                 const res = await resetMerchantStripeAccount(email)
                 if (res.success) {
+                    setEmail("")
                     toast.success("Successfully removed account")
                 } else {
                     toast.error("Something went wrong")
