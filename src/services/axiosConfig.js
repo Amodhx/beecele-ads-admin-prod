@@ -5,11 +5,9 @@ import Cookies from "js-cookie"
 import swal from "sweetalert"
 
 const instance = axios.create({
-    timeout: 5000
+    timeout: 10000
 })
 let isRefresh = false
-
-
 let failedQueue = []
 
 const processQueue = (error, token = null) => {
@@ -37,9 +35,7 @@ instance.interceptors.request.use(
 
         return config
     },
-    (error) => {
-        return Promise.reject(error)
-    }
+    (error) => Promise.reject(error)
 )
 
 function alertToCantRefreshToken() {
@@ -81,12 +77,14 @@ instance.interceptors.response.use(
 
         if (status === 401 && !originalRequest._retry) {
             if (isRefresh) {
-                return new Promise((resolve, reject) => {
+                return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject })
                 }).then(token => {
+                    console.log(`TOKEN ON RESPONSE INTERCEPTORS:   ${token} `)
                     originalRequest.headers['Authorization'] = `Bearer ${token}`
                     return instance(originalRequest)
                 })
+                    .catch((error) => Promise.reject(error))
             }
 
             originalRequest._retry = true
@@ -98,8 +96,8 @@ instance.interceptors.response.use(
                 const URL = `${apiConfig.serverUrl}/${apiConfig.basePath}/auth/refresh-token`
                 const response = await instance.post(URL, { refreshToken })
                 console.log(response)
-                const newAccessToken = response.data?.idToken
-                const newRefreshToken = response.data?.refreshToken
+                const newAccessToken = response.data?.data?.idToken
+                const newRefreshToken = response.data?.data?.refreshToken
 
                 Cookies.set(constant.ACCESS_TOKEN, newAccessToken)
                 Cookies.set(constant.REFRESH_TOKEN, newRefreshToken)
@@ -112,6 +110,7 @@ instance.interceptors.response.use(
 
             } catch (err) {
                 processQueue(err, null)
+                isRefresh = false
                 alertToCantRefreshToken()
                 return Promise.reject(err)
             }
