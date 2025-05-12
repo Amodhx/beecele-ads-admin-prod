@@ -2,6 +2,7 @@
   "name": "vuexy-react-admin-dashboard",
   "version": "1.0.0",
   "private": true,
+  "homepage": "http://service.slidee.co",
   "dependencies": {
     "@casl/ability": "5.2.2",
     "@casl/react": "2.1.1",
@@ -129,6 +130,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "homepage": ""
+  }
 }
