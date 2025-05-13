@@ -116,7 +116,6 @@ const Login = () => {
                                                     id="email"
                                                     name="email"
                                                     type="email"
-                                                    placeholder="kushanmadusha@gmail.com"
                                                     onChange={(e) => {
                                                         setEmail(e.target.value)
                                                     }}
@@ -133,7 +132,6 @@ const Login = () => {
                                                         name="password"
                                                         style={{paddingRight: 40}}
                                                         type={showEyeIcon ? "Text" : "password"}
-                                                        placeholder="Password"
                                                         onChange={(e) => {
                                                             setPassword(e.target.value)
                                                         }}

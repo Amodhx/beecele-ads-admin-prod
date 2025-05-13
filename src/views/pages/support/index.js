@@ -50,7 +50,6 @@ export default function Support() {
                 <Input
                     id="merchantEmail"
                     type="email"
-                    placeholder="Enter merchant email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     style={{marginBottom: 15}}
