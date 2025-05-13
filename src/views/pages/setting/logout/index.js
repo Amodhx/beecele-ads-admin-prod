@@ -19,6 +19,7 @@ function LogOut() {
         dispatch(setLoading(false))
 
         history.push(`${constant.BASE_ROUTE_PATH}/login`)
+        dispatch(setLoading(false))
     }, [])
 
     return <div></div>
