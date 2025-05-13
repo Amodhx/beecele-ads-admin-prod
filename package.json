@@ -2,7 +2,7 @@
   "name": "vuexy-react-admin-dashboard",
   "version": "1.0.0",
   "private": true,
-  "homepage": "http://service.slidee.co",
+  "homepage": "https://service.slidee.co",
   "dependencies": {
     "@casl/ability": "5.2.2",
     "@casl/react": "2.1.1",
@@ -98,8 +98,8 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build && scp -r build/* root@103.125.216.56:/var/www/html/beecele_ads/admin",
     "test": "react-app-rewired test",
+    "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",
     "lint": "eslint src/**/*.js src/**/*.jsx",
     "lint:fix": "eslint src/**/*.js --fix"

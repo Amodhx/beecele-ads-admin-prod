@@ -23,6 +23,7 @@ import {useDispatch} from "react-redux"
 import {handleLogin} from "../redux/actions/auth"
 import {GoEyeClosed, GoEye} from "react-icons/go"
 import {Link} from "react-router-dom/cjs/react-router-dom"
+import {setLoading} from "../redux/actions/loading"
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -43,6 +44,7 @@ const Login = () => {
         } else if (!password) {
             toast.error("Password cannot be empty")
         } else {
+            dispatch(setLoading(true))
             await loginUser({
                 email,
                 password
@@ -60,6 +62,7 @@ const Login = () => {
                     )
                 }
             })
+            dispatch(setLoading(false))
         }
     }
 
