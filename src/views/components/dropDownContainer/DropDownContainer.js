@@ -70,12 +70,14 @@ export default function DropDownContainer({text, getDataHandler}) {
                         <div style={{display: 'flex'}}>
                             <Flatpickr
                                 value={startDate}
+                                placeholder="From Date"
                                 className="form-control"
                                 style={{marginRight: 5}}
                                 onChange={(date) => setFromDate(makeDate(date))}
                             />
                             <Flatpickr
                                 value={endDate}
+                                placeholder="To Date"
                                 className="form-control"
                                 style={{marginRight: 5}}
                                 onChange={(date) => setToDate(makeDate(date))}
