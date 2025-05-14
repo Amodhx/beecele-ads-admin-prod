@@ -157,8 +157,6 @@ const Router = () => {
                         ...props,
                         meta: route.meta
                       })
-
-                      console.log("Rendering route:", route.path, "Component:", route.component)
                       return (
                         <Suspense fallback={null}>
                           {/* Layout Wrapper to add classes based on route's layout, appLayout and className */}
