@@ -50,6 +50,7 @@ const Login = () => {
                 password
             }).then((res) => {
                 if (res.success) {
+                    console.log(res)
                     Cookies.set(constant.ACCESS_TOKEN, res.data.idToken)
                     Cookies.set(constant.REFRESH_TOKEN, res.data.refreshToken)
                     dispatch(handleLogin({email, password}))
