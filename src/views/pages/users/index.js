@@ -16,6 +16,7 @@ import {useHistory, Link} from "react-router-dom/cjs/react-router-dom"
 import {getAllAndFilterUser} from "../../../services/user"
 import DropDownContainer from "../../components/dropDownContainer/DropDownContainer"
 import defaultImage from '../../../assets/images/defualtUserImage.avif'
+import SecondPage from "../../SecondPage"
 
 export default function LeadUser() {
     const dispatch = useDispatch()
@@ -91,62 +92,72 @@ export default function LeadUser() {
             <DropDownContainer text="App Users" getDataHandler={getDataHandler}/>
             <Card style={{marginTop: 10}}>
                 <CardBody>
-                    <Table
-                        className="table-responsive"
-                        bordered
-                        style={{marginTop: "20px"}}
-                    >
-                        <thead style={{fontSize: "13px"}}>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Profile Img</th>
-                            <th>Email</th>
-                            <th>DOB</th>
-                            <th>Contact</th>
-                            <th>Gender</th>
-                            <th>Role</th>
-                        </tr>
-                        </thead>
-                        <tbody style={{fontSize: "13px"}}>
-                        {data?.map((user, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{`${user?.first_name ?? ''} ${user?.last_name ?? ''}`}</td>
-                                    <td>
-                                        <img
-                                            src={user?.profile_img || defaultImage}
-                                            alt="User Image"
-                                            style={{width: '50px', cursor: 'pointer'}}
-                                            onClick={() => setImagePopup(user.profile_img)}
-                                            onError={(e) => (e.target.src = '/default-user.png')}
-                                        />
-                                    </td>
-                                    <td>{user?.email ?? '-'}</td>
-                                    <td>{user?.date_of_birthday ?? '-'}</td>
-                                    <td>{user?.contact ?? '-'}</td>
-                                    <td>{user?.gender_type?.type ?? '-'}</td>
-                                    <td>
-                                        {user?.role === 'ROLE_CREATOR'
-                                            ? 'Creator'
-                                            : user?.role === 'ROLE_USER'
-                                                ? 'User'
-                                                : '-'}
-                                    </td>
+                    {data.length === 0 ? (
+                        <SecondPage/>
+                        // <p>No data available</p>
+                    ) : (
+                        <>
+
+                            <Table
+                                className="table-responsive"
+                                bordered
+                                style={{marginTop: "20px"}}
+                            >
+                                <thead style={{fontSize: "13px"}}>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Profile Img</th>
+                                    <th>Email</th>
+                                    <th>DOB</th>
+                                    <th>Contact</th>
+                                    <th>Gender</th>
+                                    <th>Role</th>
                                 </tr>
-                            )
-                        })
-                        }
-                        </tbody>
-                    </Table>
-                    <div className="d-flex justify-content-center mt-3">
-                        <Pagination
-                            handleNext={handleNext}
-                            handlePrev={handlePrev}
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            handlePageChange={handlePageChange}
-                        />
-                    </div>
+                                </thead>
+                                <tbody style={{fontSize: "13px"}}>
+                                {data?.map((user, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{`${user?.first_name ?? ''} ${user?.last_name ?? ''}`}</td>
+                                            <td>
+                                                <img
+                                                    src={user?.profile_img || defaultImage}
+                                                    alt="User Image"
+                                                    style={{width: '50px', cursor: 'pointer'}}
+                                                    onClick={() => setImagePopup(user.profile_img)}
+                                                    onError={(e) => (e.target.src = '/default-user.png')}
+                                                />
+                                            </td>
+                                            <td>{user?.email ?? '-'}</td>
+                                            <td>{user?.date_of_birthday ?? '-'}</td>
+                                            <td>{user?.contact ?? '-'}</td>
+                                            <td>{user?.gender_type?.type ?? '-'}</td>
+                                            <td>
+                                                {user?.role === 'ROLE_CREATOR'
+                                                    ? 'Creator'
+                                                    : user?.role === 'ROLE_USER'
+                                                        ? 'User'
+                                                        : '-'}
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                                }
+                                </tbody>
+                            </Table>
+                            <div className="d-flex justify-content-center mt-3">
+                                <Pagination
+                                    handleNext={handleNext}
+                                    handlePrev={handlePrev}
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    handlePageChange={handlePageChange}
+                                />
+                            </div>
+                        </>
+
+                        )}
+
                 </CardBody>
             </Card>
             {imagePopup && (
