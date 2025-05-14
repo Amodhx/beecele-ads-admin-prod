@@ -16,8 +16,11 @@ import {useDispatch} from "react-redux"
 export default function Dashboard({direction, ...args}) {
     const dispatch = useDispatch()
     const currentYear = new Date().getFullYear()
+    const [dataType, setDataType] = useState('h_24')
     const [data, setData] = useState()
     const getDataHandler = async (page = 1, dataType, startDate, endDate) => {
+        setDataType(dataType)
+        console.log(dataType)
         if (dataType === "custom" && (!startDate || !endDate)) {
             return // Stop execution if startDate or endDate is missing
         }
@@ -48,6 +51,18 @@ export default function Dashboard({direction, ...args}) {
             dispatch(setLoading(false))
         }
     }
+    const getDataLabel = () => {
+        switch (dataType) {
+            case 'h_24':
+                return 'past 24 hours'
+            case 'day_7':
+                return 'past week'
+            case 'custom':
+                return 'selected dates'
+            default:
+                return ''
+        }
+    }
 
     return (
         <div style={{width: '96%', margin: 'auto', marginTop: 10}}>
@@ -67,7 +82,7 @@ export default function Dashboard({direction, ...args}) {
                                 Users Count
                             </CardTitle>
                             <CardText>
-                                {data}
+                                {data === 0 ? `No users in ${getDataLabel()}` : data}
                             </CardText>
                         </CardBody>
                     </Card>
