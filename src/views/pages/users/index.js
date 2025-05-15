@@ -108,7 +108,8 @@ export default function LeadUser() {
                                     <th>Full Name</th>
                                     <th>Profile Img</th>
                                     <th>Email</th>
-                                    <th>DOB</th>
+                                    <th>Birth Date</th>
+                                    <th>Joined Date</th>
                                     <th>Contact</th>
                                     <th>Gender</th>
                                     <th>Role</th>
@@ -129,11 +130,21 @@ export default function LeadUser() {
                                                 />
                                             </td>
                                             <td>{user?.email ?? '-'}</td>
-                                            <td>{user?.date_of_birthday ?? '-'}</td>
+                                            <td style={{width: '150px'}}>
+                                                {user?.date_of_birthday
+                                                    ? new Date(user.date_of_birthday).toISOString().slice(0, 10)
+                                                    : '-'}
+                                            </td>
+                                            <td>
+                                                {user?.register_date
+                                                    ? new Date(user.register_date).toISOString().slice(0, 10)
+                                                    : '-'}
+                                            </td>
+
                                             <td>{user?.contact ?? '-'}</td>
                                             <td>{user?.gender_type?.type ?? '-'}</td>
                                             <td>
-                                                {user?.role === 'ROLE_CREATOR'
+                                            {user?.role === 'ROLE_CREATOR'
                                                     ? 'Creator'
                                                     : user?.role === 'ROLE_USER'
                                                         ? 'User'
